@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -16,8 +17,8 @@
 <header class="header--main-page">
     <nav class="container container--70">
         <ul class="nav--actions">
-            <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            <li><a href="<c:url value="/login"/>" class="btn btn--small btn--without-border">Zaloguj</a></li>
+            <li><a href="<c:url value="/register"/>" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>
 
         <ul>
@@ -26,6 +27,9 @@
             <li><a href="#" class="btn btn--without-border">O nas</a></li>
             <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>
             <li><a href="#" class="btn btn--without-border">Kontakt</a></li>
+            <sec:authorize url="/admin">
+                <li><a href="<c:url value="/admin"/>" class="btn btn--without-border active">Panel administratora</a></li>
+            </sec:authorize>
         </ul>
     </nav>
 
@@ -108,22 +112,22 @@
             Możesz sprawdzić czym się zajmują.</p>
 
         <ul class="help--slides-items">
-<c:forEach items="${institutions}" var="institution" varStatus="loopStatus">
-    <c:if test="${loopStatus.count%2==1}">
-            <li>
-                <div class="col">
-                    <div class="title">Fundacja "${institution.name}"</div>
-                    <div class="subtitle">Cel i misja: ${institution.description}.</div>
-                </div>
-    </c:if>
-    <c:if test="${loopStatus.count%2==0}">
-                <div class="col">
-                    <div class="title">Fundacja "${institution.name}"</div>
-                    <div class="subtitle">Cel i misja: ${institution.description}.</div>
-                </div>
-            </li>
-    </c:if>
-</c:forEach>
+            <c:forEach items="${institutions}" var="institution" varStatus="loopStatus">
+                <c:if test="${loopStatus.count%2==1}">
+                    <li>
+                    <div class="col">
+                        <div class="title">Fundacja "${institution.name}"</div>
+                        <div class="subtitle">Cel i misja: ${institution.description}.</div>
+                    </div>
+                </c:if>
+                <c:if test="${loopStatus.count%2==0}">
+                    <div class="col">
+                        <div class="title">Fundacja "${institution.name}"</div>
+                        <div class="subtitle">Cel i misja: ${institution.description}.</div>
+                    </div>
+                    </li>
+                </c:if>
+            </c:forEach>
 
         </ul>
     </div>
@@ -146,8 +150,9 @@
     <div class="bottom-line">
         <span class="bottom-line--copy">Copyright &copy; 2018</span>
         <div class="bottom-line--icons">
-            <a href="#" class="btn btn--small"><img src="<c:url value="resources/images/icon-facebook.svg"/>"/></a> <a href="#"
-                                                                                            class="btn btn--small">
+            <a href="#" class="btn btn--small"><img src="<c:url value="resources/images/icon-facebook.svg"/>"/></a> <a
+                href="#"
+                class="btn btn--small">
             <img src="<c:url value="resources/images/icon-instagram.svg"/>"/></a>
 
         </div>
